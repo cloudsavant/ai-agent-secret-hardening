@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="layer6" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#6d28d9" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="layer5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="layer4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0891b2" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="layer3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#059669" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#047857" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="layer2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#d97706" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="layer1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#dc2626" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#b91c1c" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" fill="url(#bg)" rx="12"/>
+
+  <!-- Title -->
+  <text x="400" y="38" text-anchor="middle" fill="#f1f5f9" font-size="18" font-weight="700" letter-spacing="0.5">AI Agent Secret Hardening — 6 Defense Layers</text>
+  <text x="400" y="56" text-anchor="middle" fill="#64748b" font-size="11">Defense-in-depth: each layer catches what the previous one misses</text>
+
+  <!-- Layer 6 (outermost) -->
+  <rect x="30" y="70" width="740" height="420" rx="10" fill="url(#layer6)" stroke="#7c3aed" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="50" y="92" fill="#a78bfa" font-size="11" font-weight="600">LAYER 6</text>
+  <text x="115" y="92" fill="#c4b5fd" font-size="11">Rotation Procedures</text>
+  <text x="510" y="92" fill="#64748b" font-size="10" font-style="italic">Scheduled + emergency credential rotation</text>
+
+  <!-- Layer 5 -->
+  <rect x="55" y="102" width="690" height="375" rx="10" fill="url(#layer5)" stroke="#2563eb" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="75" y="124" fill="#60a5fa" font-size="11" font-weight="600">LAYER 5</text>
+  <text x="140" y="124" fill="#93c5fd" font-size="11">Audit + Short TTLs</text>
+  <text x="510" y="124" fill="#64748b" font-size="10" font-style="italic">Tripwire detection, narrow exfiltration window</text>
+
+  <!-- Layer 4 -->
+  <rect x="80" y="134" width="640" height="330" rx="10" fill="url(#layer4)" stroke="#0891b2" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="100" y="156" fill="#22d3ee" font-size="11" font-weight="600">LAYER 4</text>
+  <text x="165" y="156" fill="#67e8f9" font-size="11">Machine Identities</text>
+  <text x="510" y="156" fill="#64748b" font-size="10" font-style="italic">Apps auth independently, not via human session</text>
+
+  <!-- Layer 3 -->
+  <rect x="105" y="166" width="590" height="285" rx="10" fill="url(#layer3)" stroke="#059669" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="125" y="188" fill="#34d399" font-size="11" font-weight="600">LAYER 3</text>
+  <text x="190" y="188" fill="#6ee7b7" font-size="11">Sandbox Isolation</text>
+  <text x="510" y="188" fill="#64748b" font-size="10" font-style="italic">OS-level filesystem + network restrictions</text>
+
+  <!-- Layer 2 -->
+  <rect x="130" y="198" width="540" height="240" rx="10" fill="url(#layer2)" stroke="#d97706" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="150" y="220" fill="#fbbf24" font-size="11" font-weight="600">LAYER 2</text>
+  <text x="215" y="220" fill="#fcd34d" font-size="11">Filesystem Lockdown</text>
+  <text x="510" y="220" fill="#64748b" font-size="10" font-style="italic">Root-owned files agent can't open</text>
+
+  <!-- Layer 1 (innermost defense) -->
+  <rect x="155" y="230" width="490" height="195" rx="10" fill="url(#layer1)" stroke="#dc2626" stroke-width="1.5" stroke-opacity="0.5"/>
+  <text x="175" y="252" fill="#f87171" font-size="11" font-weight="600">LAYER 1</text>
+  <text x="240" y="252" fill="#fca5a5" font-size="11">PreToolUse Hook</text>
+  <text x="510" y="252" fill="#64748b" font-size="10" font-style="italic">Intercepts + blocks tool calls before execution</text>
+
+  <!-- Center: The protected core -->
+  <rect x="195" y="270" width="410" height="140" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+
+  <!-- Infisical vault icon area -->
+  <rect x="215" y="290" width="160" height="100" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <text x="295" y="315" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="600" letter-spacing="1">INFISICAL VAULT</text>
+
+  <!-- Secret items -->
+  <rect x="228" y="325" width="134" height="18" rx="3" fill="#0f172a" stroke="#475569" stroke-width="0.5"/>
+  <text x="236" y="337" fill="#f87171" font-size="9">GITLAB_TOKEN</text>
+  <circle cx="352" cy="334" r="4" fill="#22c55e" opacity="0.7"/>
+
+  <rect x="228" y="348" width="134" height="18" rx="3" fill="#0f172a" stroke="#475569" stroke-width="0.5"/>
+  <text x="236" y="360" fill="#f87171" font-size="9">TRELLO_API_KEY</text>
+  <circle cx="352" cy="357" r="4" fill="#22c55e" opacity="0.7"/>
+
+  <rect x="228" y="371" width="134" height="18" rx="3" fill="#0f172a" stroke="#475569" stroke-width="0.5"/>
+  <text x="236" y="383" fill="#f87171" font-size="9">TRELLO_API_TOKEN</text>
+  <circle cx="352" cy="380" r="4" fill="#22c55e" opacity="0.7"/>
+
+  <!-- Arrow: runtime injection (allowed) -->
+  <line x1="375" y1="345" x2="415" y2="345" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrowGreen)"/>
+  <defs>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#22c55e"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#ef4444"/>
+    </marker>
+  </defs>
+
+  <!-- Application box -->
+  <rect x="418" y="290" width="170" height="55" rx="6" fill="#1e293b" stroke="#22c55e" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="503" y="312" text-anchor="middle" fill="#86efac" font-size="10" font-weight="600">YOUR APPLICATION</text>
+  <text x="503" y="327" text-anchor="middle" fill="#64748b" font-size="9">infisical run -- app</text>
+  <text x="503" y="340" text-anchor="middle" fill="#4ade80" font-size="9">secrets injected at runtime</text>
+
+  <!-- AI Agent box (blocked) -->
+  <rect x="418" y="355" width="170" height="45" rx="6" fill="#1e293b" stroke="#ef4444" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="503" y="374" text-anchor="middle" fill="#fca5a5" font-size="10" font-weight="600">AI CODING AGENT</text>
+  <text x="503" y="389" text-anchor="middle" fill="#ef4444" font-size="9">BLOCKED at every layer</text>
+
+  <!-- X mark for blocked -->
+  <g transform="translate(395, 370)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="9" fill="#7f1d1d" stroke="#ef4444" stroke-width="1"/>
+    <line x1="-4" y1="-4" x2="4" y2="4" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+    <line x1="4" y1="-4" x2="-4" y2="4" stroke="#ef4444" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- Check mark for allowed -->
+  <g transform="translate(395, 318)" filter="url(#glow)">
+    <circle cx="0" cy="0" r="9" fill="#14532d" stroke="#22c55e" stroke-width="1"/>
+    <polyline points="-4,0 -1,3 4,-3" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Footer -->
+  <text x="400" y="505" text-anchor="middle" fill="#475569" font-size="10">github.com/cloudsavant/ai-agent-secret-hardening</text>
+</svg>

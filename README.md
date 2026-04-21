@@ -8,6 +8,10 @@
 
 Self-hosted Infisical secrets store plus a Claude Code PreToolUse hook that blocks AI coding agents from reading secret material. Ships with installers (shell scripts + Ansible) so rolling this out to a second laptop or server is one command.
 
+## Architecture
+
+![6 Defense Layers](docs/hardening-layers.svg)
+
 ## Read order
 
 1. **[HARDENING.md](HARDENING.md)** — the critical piece. Infisical alone doesn't stop a local AI agent from dumping every secret; the Claude Code hook does. Install this first on any machine where an AI agent runs.
