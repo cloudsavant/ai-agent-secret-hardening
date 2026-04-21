@@ -1,5 +1,11 @@
 # Vault — hybrid secrets with Infisical + AI-agent hardening
 
+> **Disclaimer**
+>
+> 1. **This is a proof-of-concept.** It may contain bugs, incomplete flows, or edge cases that haven't been addressed. Use it for learning and experimentation, not as a production-grade security product out of the box.
+> 2. **Review every script and config before running it in your environment.** File paths, hook patterns, and permission models may need adaptation to your OS, shell, and tooling.
+> 3. **Treat this repo as a guideline and template** for hardening AI coding agents against secret exfiltration — not as a turnkey solution. Your threat model, infrastructure, and operational context will differ.
+
 Self-hosted Infisical secrets store plus a Claude Code PreToolUse hook that blocks AI coding agents from reading secret material. Ships with installers (shell scripts + Ansible) so rolling this out to a second laptop or server is one command.
 
 ## Read order
