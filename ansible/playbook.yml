@@ -1,0 +1,105 @@
+---
+# Minimal Infisical rollout playbook.
+#
+# Targets:
+#   laptops  — install hooks, CLI, no stack (point at a server host)
+#   servers  — install hooks, CLI, and the self-hosted stack
+#
+# The vault repo is rsync'd to each host and scripts run there. Keeps all logic
+# in shell scripts (testable locally, Ansible just orchestrates).
+#
+# Usage:
+#   ansible-playbook -i inventory.yml playbook.yml --tags=laptop
+#   ansible-playbook -i inventory.yml playbook.yml --tags=server
+#
+# Inventory example (inventory.yml):
+#   all:
+#     children:
+#       laptops:
+#         hosts:
+#           dev-laptop: {ansible_host: 192.0.2.10, ansible_user: devuser}
+#       servers:
+#         hosts:
+#           infisical-prod: {ansible_host: 192.0.2.20, ansible_user: deploy}
+
+- name: Deploy vault folder to target
+  hosts: all
+  gather_facts: true
+  vars:
+    vault_src: "{{ playbook_dir }}/.."
+    vault_dest: "{{ ansible_env.HOME }}/vault"
+  tasks:
+    - name: Sync vault folder (excluding host-local state)
+      ansible.posix.synchronize:
+        src: "{{ vault_src }}/"
+        dest: "{{ vault_dest }}/"
+        delete: false
+        rsync_opts:
+          - "--exclude=stack/.env"
+          - "--exclude=stack/pg-data"
+          - "--exclude=stack/redis-data"
+          - "--exclude=ansible/inventory.yml"
+          - "--exclude=.infisical.json"
+          - "--exclude=*.bak.*"
+          - "--exclude=internal/"
+
+- name: Claude Code hardening (every host with an AI agent)
+  hosts: all
+  tags: [hardening]
+  tasks:
+    - name: Ensure ~/.claude exists
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.claude/hooks"
+        state: directory
+        mode: "0755"
+
+    - name: Install Infisical guard hook
+      ansible.builtin.command: bash "{{ ansible_env.HOME }}/vault/scripts/install-claude-hooks.sh"
+      args:
+        creates: "{{ ansible_env.HOME }}/.claude/hooks/protect_infisical.py"
+
+    - name: Verify hardening probes
+      ansible.builtin.command: bash "{{ ansible_env.HOME }}/vault/scripts/verify-hardening.sh"
+      changed_when: false
+
+    - name: Lock down Infisical paths (filesystem permissions)
+      ansible.builtin.command: bash "{{ ansible_env.HOME }}/vault/scripts/lockdown-infisical-paths.sh" "{{ ansible_user }}"
+      become: true
+      register: lockdown
+      changed_when: "'locked down' in lockdown.stdout"
+
+- name: Install Infisical CLI (every host)
+  hosts: all
+  tags: [cli]
+  tasks:
+    - name: Run CLI installer
+      ansible.builtin.command: bash "{{ ansible_env.HOME }}/vault/scripts/install-cli.sh"
+      register: cli_install
+      changed_when: "'Installing' in cli_install.stdout"
+
+- name: Bring up self-hosted Infisical stack (servers only)
+  hosts: servers
+  tags: [server, stack]
+  tasks:
+    - name: Run stack installer
+      ansible.builtin.command: bash "{{ ansible_env.HOME }}/vault/scripts/install-stack.sh"
+      register: stack_up
+      changed_when: "'generating' in stack_up.stdout or 'Creating' in stack_up.stdout"
+
+- name: Post-deploy smoke test
+  hosts: all
+  tags: [verify]
+  tasks:
+    - name: Check Infisical CLI is on PATH
+      ansible.builtin.command: infisical --version
+      changed_when: false
+
+    - name: Check Infisical stack health (servers only)
+      ansible.builtin.uri:
+        url: "http://localhost:8080/api/status"
+        return_content: false
+        status_code: 200
+      when: "'servers' in group_names"
+
+# Laptops only log into the existing server — no stack to bring up. `infisical
+# login` is interactive and must be done by a human per laptop (see HARDENING.md).

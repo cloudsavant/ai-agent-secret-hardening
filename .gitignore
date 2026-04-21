@@ -1,0 +1,17 @@
+# Stack runtime (per-host secrets + docker volumes)
+stack/.env
+stack/pg-data/
+stack/redis-data/
+
+# CLI-local project link (created by `infisical init` in consuming repos)
+.infisical.json
+
+# Ansible inventory (hostnames/IPs)
+ansible/inventory.yml
+
+# Python scratch
+claude-hooks/__pycache__/
+
+# Editor / OS noise
+.DS_Store
+*.bak.*
